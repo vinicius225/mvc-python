@@ -6,4 +6,7 @@ class conection_database_SQL:
             self.config = json.load(config) 
     def conexao(self):
         return conection_factory(self.config['database_postgres']).conexao()
+    def consulta_personalizada(self, sql:str, campos):
+        return conection_factory(self.config['database_postgres']).consulta_personalizada(sql,campos)
+        
         

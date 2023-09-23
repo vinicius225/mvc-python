@@ -1,6 +1,7 @@
 
-import psycopg2
-
+import sqlalchemy
+import sys
+import json
 class conection_factory:
     
     def __init__(self, database_json):
@@ -10,12 +11,28 @@ class conection_factory:
         self.password = database_json['password']
     
     def conexao(self):
-        return psycopg2.connect(
-        host=self.host,
-        database=self.database,
-        user=self.user,
-        password=self.password
-    )
+        engine = sqlalchemy.create_engine(f'postgresql://{self.user}:{self.password}@{self.host}/{self.database}')
+        Session = sqlalchemy.orm.sessionmaker(bind=engine)
+        return Session()
+    
+    def consulta_personalizada(self, sql:str, campos):
+        try:
+            #corrigir no futuro
+            _conexao = self.conexao()
+            retorno = _conexao.execute(sqlalchemy.sql.text(sql))
+            _conexao.close()
+            resultado_em_dicionarios = []
+            linha_em_dicionario = []
+            for row in retorno:
+                for campo in range(len(campos)):
+                    coluna = {campos[campo] : row[campo]}
+                    linha_em_dicionario.append(coluna)
+                resultado_em_dicionarios.append(json.dumps(linha_em_dicionario))
+        except Exception as ex :
+            print(ex)
+
+        return resultado_em_dicionarios
+    
         
         
         
