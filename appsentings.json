@@ -1,0 +1,8 @@
+{
+    "database_postgres":{
+        "host": "localhost",
+        "data_base": "erp_sistema",
+        "user": "postgres",
+        "password" : "123456"
+    }
+}
