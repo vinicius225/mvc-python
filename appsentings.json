@@ -4,5 +4,10 @@
         "data_base": "erp_sistema",
         "user": "postgres",
         "password" : "123456"
+    },
+    "jtw_token" :{
+        "secret_key" : "@erp_jbho",
+        "algoritimo" : "HS256",
+        "expira_token" : 2
     }
 }
